@@ -1,0 +1,7 @@
+{
+  "dbName" : "test",
+  "dbURL" : "http://192.168.1.100:8086",
+  "login" : "root",
+  "password" : "root",
+  "loglevel" : "FULL"
+}
