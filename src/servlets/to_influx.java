@@ -15,17 +15,19 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.concurrent.TimeUnit;
 
-@WebServlet("/to_influx")
+@WebServlet("/")
 public class to_influx extends HttpServlet {
-    //TODO пробный вариант с статическим подключение к БД, надо переделать оп человечески.
+    //TODO пробный вариант с статическим подключение к БД, надо переделать по человечески.
     private static InfluxDB influxDB = null;
     private static config cfg = null;
+    private static String rootPath = null;
 
     public static void Init() throws IOException {
-        to_influx.cfg = readConfig.parceConfig("./configs/influx.json");
+
+        to_influx.cfg = readConfig.parceConfig( "C:\\influx.json");
 
         InfluxDB influxDB = InfluxDBFactory.connect(cfg.getDbURL(), cfg.getLogin(), cfg.getPassword());
-        //influxDB.createDatabase(dbName);
+        influxDB.createDatabase(cfg.getDbName());
 
         // Flush every 2000 Points, at least every 100ms
         influxDB.enableBatch(2000, 100, TimeUnit.MILLISECONDS);
@@ -52,7 +54,7 @@ public class to_influx extends HttpServlet {
 
         Point point1 = Point.measurement(request.getParameterValues("name")[0])
                 .time(System.currentTimeMillis(), TimeUnit.MILLISECONDS)
-                .addField("host", request.getParameterValues("host")[0])
+                .tag("host", request.getParameterValues("host")[0])
                 .addField("status", request.getParameterValues("status")[0])
                 .addField("start_time", request.getParameterValues("start_time")[0])
                 .addField("end_time", request.getParameterValues("end_time")[0])
