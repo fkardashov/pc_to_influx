@@ -25,7 +25,7 @@ public class to_influx extends HttpServlet {
     public static void Init() throws IOException {
 
         //.cfg = readConfig.parceConfig( "C:\\influx.json");
-
+sdfsdfsdfsdf
         InfluxDB influxDB = InfluxDBFactory.connect(cfg.getDbURL(), cfg.getLogin(), cfg.getPassword());
         influxDB.createDatabase(cfg.getDbName());
 
